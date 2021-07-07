@@ -12,7 +12,7 @@ public class MyMethods extends BaseInit {
 
 
     public static void signIN(String email, String pwd) {
-
+        System.out.println("SIGN IN ");
         //driver.findElement(By.linkText("log yourself in")).click();
         //driver.findElement(By.linkText(storage.getProperty("lnk_logurselfin_linkText"))).click();
         isElementPresent("lnk_logurselfin_linkText").click();
@@ -77,21 +77,21 @@ public class MyMethods extends BaseInit {
         Object[][] myData = new Object[rows - 1][cols];
 
         for (int row = 1; row < rows; row++) {
-
             for (int col = 0; col < cols; col++) {
-
+                
                 myData[row - 1][col] = data.getData(sheetName, row, col);
             }
         }
         return myData;
     }
+
     public static String getScreenShot(String imageName, WebDriver driver) {
 
         TakesScreenshot ts = (TakesScreenshot)driver;
 
         File scrFile = ts.getScreenshotAs(OutputType.FILE);
 
-        String path = System.getProperty("user.dir")+"\\src\\main\\resources\\unicodeTech\\screenshots\\"+imageName+System.currentTimeMillis()+".png";
+        String path = System.getProperty("user.dir") + "/src/main/resources/Screenshots/" +imageName+System.currentTimeMillis()+".png";
 
         //System.out.println(path);
         File destination =new File(path);

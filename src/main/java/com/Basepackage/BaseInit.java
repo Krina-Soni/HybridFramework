@@ -1,4 +1,17 @@
 package com.Basepackage;
+
+/*Define Properties Files - SiteData & Object Storage
+ * Reference of WebDriver
+ * Define logs
+ * Launch Browser
+ * Maximize browser window
+ * Delete All Cookies
+ * Define TimeUnit
+ * Reference of ExcelFileReader - TestSuite, TestSuiteA, TestSuiteB, TestSuiteC
+ * Create isElementPresent method
+ * Initialize Extent Report
+ */
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -34,7 +47,8 @@ public class BaseInit {
   public static ExtentTest test=null;
 
   public void startUP() throws IOException{
-    reporter=new ExtentHtmlReporter("./src/main/resources/unicodeTech/Reports/Reports.html");
+
+    reporter=new ExtentHtmlReporter("./src/main/resources/Reports/Reports.html");
     reporter.config().setDocumentTitle("Gadgets Gallery Report");
     reporter.config().setTheme(Theme.DARK);
     reporter.config().setReportName("Release Report_1");
@@ -49,29 +63,22 @@ public class BaseInit {
     logs.info("Browser will be launching soon");
 
     siteData=new Properties();
-    FileInputStream fi= new FileInputStream("./src/main/resources/unicodeTech/propertiesData/SiteData.properties");
+    FileInputStream fi= new FileInputStream("./src/main/resources/propertiesData/SiteData.properties");
     siteData.load(fi);
 
     logs.info("Object Storage properties file is loading now");
 
     objectStorage=new Properties();
-    fi= new FileInputStream("./src/main/resources/files/propertiesData/ObjectStorage.properties");
+    fi= new FileInputStream("./src/main/resources/propertiesData/ObjectStorage.properties");
     objectStorage.load(fi);
 
     String browserKey= siteData.getProperty("browser");
 
-    if(browserKey.equalsIgnoreCase("Chrome")) {
-      System.setProperty("webdriver.gecko.driver", "./src/main/framework_hybrid/chromedriver");
+    if(browserKey.equalsIgnoreCase("chrome")) {
+      System.setProperty("Webdriver.chrome.driver", System.getProperty("user.dir") + "chromedriver");
       driver=new ChromeDriver();
       logs.info("Chrome Browser launched");
     }
-
-    else if(browserKey.equalsIgnoreCase("Firefox")) {
-      System.setProperty("webdriver.gecko.driver", "./src/main/framework_hybrid/geckodriver");
-      driver=new FirefoxDriver();
-      logs.info("Firefox Browser launched");
-    }
-
     else
     {
       logs.info("No Browser defined");
@@ -82,14 +89,15 @@ public class BaseInit {
     driver.manage().deleteAllCookies();
     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-    ts= new  ExcelFileReader("./src/main/resources/unicodeTech/TestInformation/TestSuite.xlsx");
-    tsa= new ExcelFileReader("./src/main/resources/unicodeTech/TestInformation/TestSuiteA.xlsx");
-    tsb= new ExcelFileReader("./src/main/resources/unicodeTech/TestInformation/TestSuiteB.xlsx");
-    tsc= new ExcelFileReader("./src/main/resources/unicodeTech/TestInformation/TestSuiteC.xlsx");
+    ts= new  ExcelFileReader("./src/main/resources/testinformation/TestSuite.xlsx");
+    tsa= new ExcelFileReader("./src/main/resources/testinformation/TestSuiteA.xlsx");
+    tsb= new ExcelFileReader("./src/main/resources/testinformation/TestSuiteB.xlsx");
+    tsc= new ExcelFileReader("./src/main/resources/testinformation/TestSuiteC.xlsx");
 
     logs.info("Start UP function successfully started");
   }
   public static WebElement isElementPresent(String propKey) {
+
     try {
       if(propKey.contains("xpath")) {
         return driver.findElement(By.xpath(objectStorage.getProperty(propKey)));
